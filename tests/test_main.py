@@ -17,11 +17,12 @@ class test_remove_function(unittest.TestCase):
         self.test_str_1 = [
             'CR12', 'CR13', 'MO449', 'LEET1337'
         ]
-        self.test_result_1 = [
-            12, 13, 449, 1337
-        ]
+        self.test_result_1 = {
+            'CR': [12, 13],
+            'MO': [449],
+            'LEET': [1337]
+        }
     def test_func_1(self):
-        self.assertListEqual(remove_chars_from_string(self.test_str_1), self.test_result_1)
-
+        self.assertDictEqual(remove_chars_from_string(self.test_str_1), self.test_result_1)
 if __name__ == '__main__':
     unittest.main()
