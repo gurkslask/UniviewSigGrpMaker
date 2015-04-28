@@ -6,11 +6,12 @@ import unittest
 
 class test_find_intevals(unittest.TestCase):
     def setUp(self):
-        self.test_list = [
+        self.test_list = {'CR': [
             1, 2, 3, 4, 64, 128
-        ]
+        ]}
+
     def test_variables_1(self):
-        self.assertListEqual(find_intervals_in_variables(self.test_list), [1, 64, 128])
+        self.assertDictEqual(find_intervals_in_variables(self.test_list), {'CR': [1, 64, 128]})
 
 class test_remove_function(unittest.TestCase):
     def setUp(self):
