@@ -36,8 +36,15 @@ def find_intervals_in_variables(dict_with_variable):
         dict_with_variable[variables] = resulting_list
     return dict_with_variable
 
-def make_output_file(list_with_variables):
-    print(list_with_variables)
+def make_output_file(dict_with_variables):
+    print(dict_with_variables)
+    value_dict = {
+        'MO': '14',
+        'CR': '13'
+    }
+    for prefix in dict_with_variables:
+        for posts in dict_with_variables[prefix]:
+            print('{}    {}'.format(value_dict[prefix], posts), end='|')
 
 
 def main():
