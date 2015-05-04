@@ -1,7 +1,9 @@
 __author__ = 'alexander'
 import re
 import csv
-from collections import defaultdict
+from collections import defaultdict, namedtuple
+
+adress_register = namedtuple('adress_register', ['UV_adress', 'length'])
 
 def open_csv_file(filename):
     with open(filename) as csvfile:
@@ -29,23 +31,30 @@ def find_intervals_in_variables(dict_with_variable):
         interval = 32
         last_variable = -32
         resulting_list = []
+        length = 0
         for variable in dict_with_variable[variables]:
             if variable - last_variable > interval:
-                resulting_list.append(variable)
+                resulting_list.append(adress_register(variable, make_div_by_sixteen(length)))
+                length = 0
             last_variable = variable
+            length += 1
         dict_with_variable[variables] = resulting_list
     return dict_with_variable
 
 def make_output_file(dict_with_variables):
-    print(dict_with_variables)
     value_dict = {
-        'MO': '14',
-        'CR': '13'
+        'MO': '7',
+        'CR': '3'
     }
     for prefix in dict_with_variables:
         for posts in dict_with_variables[prefix]:
-            print('{}    {}'.format(value_dict[prefix], posts), end='|')
+            print('{:<5}{:<9}{:<4}'.format(value_dict[prefix], posts, posts), end='|')
 
+def make_div_by_sixteen(an_int):
+    temp_int = 0
+    while an_int > temp_int:
+        temp_int += 16
+    return temp_int
 
 def main():
     vars = remove_chars_from_string(open_csv_file('test.csv'))
