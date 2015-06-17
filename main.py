@@ -68,14 +68,14 @@ def make_output_file(dict_with_variables):
     result_list = []
     for prefix in dict_with_variables:
         for posts in dict_with_variables[prefix]:
-            result_string = '{prefix:<5}{adress:<9}{length:<4}{type:<5}{adress:<9}{type:<5}{adress:<9}{max_interval:<9}{interval:<9}{max_interval:<9}{interval:<9}1'.format(prefix=value_dict[prefix][0], adress=posts.UV_adress, length=posts.length, type=value_dict[prefix][1], interval=time_interval, max_interval=max_time_interval)
+            result_string = '{prefix}\t{adress}\t{length}\t{type}\t{adress}\t{type}\t{adress}\t{max_interval}\t{interval}\t{max_interval}\t{interval}\t1\n'.format(prefix=value_dict[prefix][0], adress=posts.UV_adress, length=posts.length, type=value_dict[prefix][1], interval=time_interval, max_interval=max_time_interval)
             result_list.append(result_string)
             if time_interval == max_time_interval:
                 time_interval = 0
             time_interval += 1
         time_interval = 0
     print('|\n'.join(result_list))
-    return '|'.join(result_list)
+    return '\t'.join(result_list)
 
 
 def make_div_by_sixteen(an_int):
