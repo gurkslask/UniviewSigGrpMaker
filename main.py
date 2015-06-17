@@ -59,7 +59,10 @@ def find_intervals_in_variables(dict_with_variable):
 
 
 def make_output_file(dict_with_variables):
+    #Change this variable to change the time interval
     max_time_interval = 5
+
+    #NOT THIS ONE!
     time_interval = 0
     value_dict = {
         'MO': ['7', '2'],
@@ -68,13 +71,23 @@ def make_output_file(dict_with_variables):
     result_list = []
     for prefix in dict_with_variables:
         for posts in dict_with_variables[prefix]:
-            result_string = '{prefix}\t{adress}\t{length}\t{type}\t{adress}\t{type}\t{adress}\t{max_interval}\t{interval}\t{max_interval}\t{interval}\t1\n'.format(prefix=value_dict[prefix][0], adress=posts.UV_adress, length=posts.length, type=value_dict[prefix][1], interval=time_interval, max_interval=max_time_interval)
+            result_string = '''
+            {prefix}\t{adress}\t{length}\t{type}\t{adress}\t
+            {type}\t{adress}\t{max_interval}\t{interval}\t
+            {max_interval}\t{interval}\t1\n
+            '''.format(
+                prefix=value_dict[prefix][0],
+                adress=posts.UV_adress,
+                length=posts.length,
+                type=value_dict[prefix][1],
+                interval=time_interval,
+                max_interval=max_time_interval
+            )
             result_list.append(result_string)
             if time_interval == max_time_interval:
                 time_interval = 0
             time_interval += 1
         time_interval = 0
-    print('|\n'.join(result_list))
     return '\t'.join(result_list)
 
 
