@@ -1,4 +1,4 @@
-
+import sys
 import re
 import csv
 from collections import defaultdict, namedtuple
@@ -11,7 +11,7 @@ adress_register = namedtuple('adress_register', ['UV_adress', 'length'])
 def open_csv_file(filename):
     with open(filename) as csvfile:
         variable_reader = csv.reader(csvfile)
-        resulting_list = [variable[1] for variable in variable_reader]
+        resulting_list = [variable[2] for variable in variable_reader]
         return resulting_list
 
 
@@ -85,10 +85,17 @@ def make_div_by_sixteen(an_int):
     return max(temp_int, 16)
 
 
-def main():
-    vars = remove_chars_from_string(open_csv_file('/home/alex/Documents/defreg.csv'))
-    with open('test.txt', 'w') as f:
+def main(argv):
+    try:
+        csv_file = argv[1]
+        output_txt_file = argv[2]
+    except IndexError:
+        print('No CSV or output file specified')
+        sys.exit()
+    vars = remove_chars_from_string(open_csv_file(csv_file))
+    with open(output_txt_file, 'w') as f:
         f.write(make_output_file(find_intervals_in_variables(vars)))
 
 if __name__ == '__main__':
-    main()
+    # first arg CSV file, second arg output file
+    main(sys.argv)
