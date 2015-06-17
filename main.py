@@ -66,7 +66,7 @@ def make_output_file(dict_with_variables):
     }
     for prefix in dict_with_variables:
         for posts in dict_with_variables[prefix]:
-            print('{:<5}{:<9}{:<4}'.format(value_dict[prefix], posts.UV_adress, posts.length), end='|')
+            print('{:<5}{adress:<9}{length:<4}'.format(value_dict[prefix], adress=posts.UV_adress, length=posts.length), end='|')
 
 def make_div_by_sixteen(an_int):
     temp_int = 0
