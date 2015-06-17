@@ -8,7 +8,7 @@ import unittest
 class test_find_intevals(unittest.TestCase):
     def setUp(self):
         self.test_list = {'CR': [
-            1, 2, 3, 4, 64, 128
+            1, 2, 3, 4, 64, 65, 128, 256
         ]}
         self.test_result = {
             'CR': [

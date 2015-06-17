@@ -29,16 +29,20 @@ def find_intervals_in_variables(dict_with_variable):
     for variables in dict_with_variable:
         dict_with_variable[variables].sort()
         interval = 32
-        last_variable = -32
+        last_variable = 0
         resulting_list = []
         length = 0
+        start_val = None
         for variable in dict_with_variable[variables]:
             if variable - last_variable > interval:
-                resulting_list.append(adress_register(variable, make_div_by_sixteen(length)))
-                length = 0
+                # Lets count
+                resulting_list.append(adress_register(start_val, make_div_by_sixteen(last_variable - start_val)))
+                start_val = None
+            if start_val == None:
+                start_val = variable
             last_variable = variable
-            length += 1
         dict_with_variable[variables] = resulting_list
+        print(dict_with_variable)
     return dict_with_variable
 
 def make_output_file(dict_with_variables):
