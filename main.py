@@ -40,7 +40,6 @@ def find_intervals_in_variables(dict_with_variable):
         length = 1
         for variable in dict_with_variable[variables]:
             if variable - last_variable > interval:
-                print(variables, first_number, last_variable - first_number)
                 # If interval is big enough, add it to the list
                 resulting_list.append(adress_register(
                     first_number,
@@ -60,13 +59,24 @@ def find_intervals_in_variables(dict_with_variable):
 
 
 def make_output_file(dict_with_variables):
+    max_time_interval = 5
+    time_interval = 0
     value_dict = {
-        'MO': '7',
-        'CR': '3'
+        'MO': ['7', '2'],
+        'CR': ['3', '1']
     }
+    result_list = []
     for prefix in dict_with_variables:
         for posts in dict_with_variables[prefix]:
-            print('{:<5}{adress:<9}{length:<4}'.format(value_dict[prefix], adress=posts.UV_adress, length=posts.length), end='|')
+            result_string = '{prefix:<5}{adress:<9}{length:<4}{type:<5}{adress:<9}{type:<5}{adress:<9}{max_interval:<9}{interval:<9}{max_interval:<9}{interval:<9}1'.format(prefix=value_dict[prefix][0], adress=posts.UV_adress, length=posts.length, type=value_dict[prefix][1], interval=time_interval, max_interval=max_time_interval)
+            result_list.append(result_string)
+            if time_interval == max_time_interval:
+                time_interval = 0
+            time_interval += 1
+        time_interval = 0
+    print('|\n'.join(result_list))
+    return '|'.join(result_list)
+
 
 def make_div_by_sixteen(an_int):
     temp_int = 0
@@ -74,9 +84,11 @@ def make_div_by_sixteen(an_int):
         temp_int += 16
     return max(temp_int, 16)
 
+
 def main():
-    vars = remove_chars_from_string(open_csv_file('test.csv'))
-    make_output_file(find_intervals_in_variables(vars))
+    vars = remove_chars_from_string(open_csv_file('/home/alex/Documents/defreg.csv'))
+    with open('test.txt', 'w') as f:
+        f.write(make_output_file(find_intervals_in_variables(vars)))
 
 if __name__ == '__main__':
     main()
