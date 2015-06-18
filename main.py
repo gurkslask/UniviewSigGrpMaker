@@ -2,7 +2,6 @@ import sys
 import re
 import csv
 from collections import defaultdict, namedtuple
-import sys
 
 __author__ = 'alexander'
 
@@ -72,11 +71,7 @@ def make_output_file(dict_with_variables):
     result_list = []
     for prefix in dict_with_variables:
         for posts in dict_with_variables[prefix]:
-            result_string = '''
-            {prefix}\t{adress}\t{length}\t{type}\t{adress}\t
-            {type}\t{adress}\t{max_interval}\t{interval}\t
-            {max_interval}\t{interval}\t1\n
-            '''.format(
+            result_string = '''{prefix}\t{adress}\t{length}\t{type}\t{adress}\t{type}\t{adress}\t{max_interval}\t{interval}\t{max_interval}\t{interval}\t1\n'''.format(
                 prefix=value_dict[prefix][0],
                 adress=posts.UV_adress,
                 length=posts.length,
@@ -89,7 +84,7 @@ def make_output_file(dict_with_variables):
                 time_interval = 0
             time_interval += 1
         time_interval = 0
-    return '\t'.join(result_list)
+    return ''.join(result_list)
 
 
 def make_div_by_sixteen(an_int):
@@ -113,3 +108,4 @@ def main(argv):
 if __name__ == '__main__':
     # first arg CSV file, second arg output file
     main(sys.argv)
+
