@@ -1,4 +1,4 @@
-
+import sys
 import re
 import csv
 from collections import defaultdict, namedtuple
@@ -60,7 +60,10 @@ def find_intervals_in_variables(dict_with_variable):
 
 
 def make_output_file(dict_with_variables):
+    #Change this variable to change the time interval
     max_time_interval = 5
+
+    #NOT THIS ONE!
     time_interval = 0
     value_dict = {
         'MO': ['7', '2'],
@@ -69,13 +72,23 @@ def make_output_file(dict_with_variables):
     result_list = []
     for prefix in dict_with_variables:
         for posts in dict_with_variables[prefix]:
-            result_string = '{prefix}\t{adress}\t{length}\t{type}\t{adress}\t{type}\t{adress}\t{max_interval}\t{interval}\t{max_interval}\t{interval}\t1\n'.format(prefix=value_dict[prefix][0], adress=posts.UV_adress, length=posts.length, type=value_dict[prefix][1], interval=time_interval, max_interval=max_time_interval)
+            result_string = '''
+            {prefix}\t{adress}\t{length}\t{type}\t{adress}\t
+            {type}\t{adress}\t{max_interval}\t{interval}\t
+            {max_interval}\t{interval}\t1\n
+            '''.format(
+                prefix=value_dict[prefix][0],
+                adress=posts.UV_adress,
+                length=posts.length,
+                type=value_dict[prefix][1],
+                interval=time_interval,
+                max_interval=max_time_interval
+            )
             result_list.append(result_string)
             if time_interval == max_time_interval:
                 time_interval = 0
             time_interval += 1
         time_interval = 0
-    print('|\n'.join(result_list))
     return '\t'.join(result_list)
 
 
@@ -87,11 +100,16 @@ def make_div_by_sixteen(an_int):
 
 
 def main(argv):
-    csv_file = '/home/alex/Documents/defreg2.csv'
-    text_file = argv[2]
+    try:
+        csv_file = argv[1]
+        output_txt_file = argv[2]
+    except IndexError:
+        print('No CSV or output file specified')
+        sys.exit()
     vars = remove_chars_from_string(open_csv_file(csv_file))
-    with open(text_file, 'w') as f:
+    with open(output_txt_file, 'w') as f:
         f.write(make_output_file(find_intervals_in_variables(vars)))
 
 if __name__ == '__main__':
+    # first arg CSV file, second arg output file
     main(sys.argv)
